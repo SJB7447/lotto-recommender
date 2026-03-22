@@ -7,6 +7,7 @@ import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { GeneratorPanel } from "@/components/GeneratorPanel";
 import { DrawCard } from "@/components/DrawCard";
 import { LottoBall } from "@/components/LottoBall";
+import { InstallPWA } from "@/components/InstallPWA";
 
 export default function HomePage() {
   const [draws, setDraws] = useState<LottoDraw[]>([]);
@@ -43,6 +44,8 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-bg text-main-text pb-24">
       <div className="max-w-3xl mx-auto px-5 pt-12">
+        
+        <InstallPWA />
         
         <header className="mb-10 text-center animate-fade-in">
           <p className="text-secondary font-black text-sm sm:text-base mb-2">아버지의 든든한 행운 도우미 👨‍👩‍👧</p>

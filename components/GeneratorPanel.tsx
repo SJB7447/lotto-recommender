@@ -20,11 +20,13 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
   const [mode, setMode] = useState<GenerateMode>("balanced");
   const [result, setResult] = useState<GenerateResult | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const handleGenerate = () => {
     if (draws.length === 0) return;
     setIsAnimating(true);
     setResult(null);
+    setIsSaved(false);
     
     // 애니메이션 효과를 위해 약간의 딜레이 후 생성
     setTimeout(() => {
@@ -32,6 +34,20 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
       setResult(res);
       setIsAnimating(false);
     }, 400);
+  };
+
+  const handleSave = () => {
+    if (!result) return;
+    const saved = JSON.parse(localStorage.getItem('saved_lotto') || '[]');
+    const newEntry = {
+      id: Date.now(),
+      nums: result.nums,
+      mode: result.mode,
+      modeLabel: result.modeLabel,
+      date: new Date().toLocaleDateString('ko-KR')
+    };
+    localStorage.setItem('saved_lotto', JSON.stringify([newEntry, ...saved]));
+    setIsSaved(true);
   };
 
   const getStatsSummary = (nums: number[]) => {
@@ -113,6 +129,20 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
                 신뢰도: {result.confidence}
               </span>
               <p className="text-sm font-medium text-main-text mt-2">{getStatsSummary(result.nums)}</p>
+            </div>
+            
+            <div className="mt-8 w-full flex justify-center pb-2">
+              <button 
+                onClick={handleSave}
+                disabled={isSaved}
+                className={`w-full sm:w-auto px-8 py-4 rounded-2xl md:rounded-full font-black text-lg md:text-xl transition-all ${
+                  isSaved 
+                    ? "bg-secondary text-white shadow-md scale-100 cursor-default" 
+                    : "bg-[#FFF8E6] text-primary border-2 border-primary/20 hover:bg-primary hover:text-white shadow-sm hover:scale-105 active:scale-95"
+                }`}
+              >
+                {isSaved ? "⭐ 보관함에 쏘옥! (저장완료)" : "⭐ 이 번호 마음에 듭니다 (보관)"}
+              </button>
             </div>
           </div>
         )}

@@ -51,6 +51,7 @@ export function Navbar() {
     { name: "홈", path: "/" },
     { name: "통계", path: "/stats" },
     { name: "기록", path: "/history" },
+    { name: "🎁 내 보관함", path: "/saved"}
   ];
 
   return (
