@@ -19,8 +19,13 @@ const robotoMono = Roboto_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "로또 번호 추천 & 통계 데이터",
-  description: "희망은 있지만 맹신은 금지! 로또 통계 분석과 스마트한 번호 조합기",
+  title: "행운로또 (LottoStat)",
+  description: "과거를 분석해 새로운 희망을 그려보세요. 아버지를 위한 스마트 로또 도우미!",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
