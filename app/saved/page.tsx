@@ -67,7 +67,7 @@ export default function SavedPage() {
            <div className="bg-white p-8 sm:p-10 rounded-[2rem] border-[3px] border-border/50 shadow-md text-center animate-fade-in transition-all">
              <div className="text-7xl mb-6">🔑</div>
              <h2 className="text-3xl font-black text-primary mb-3">나만의 보관함 PIN</h2>
-             <p className="text-muted font-bold text-base mb-8 break-keep">
+             <p className="text-muted font-bold text-base mb-8 break-keep hide-on-large">
                개인 보관함을 열기 위한 <b>숫자나 영문 핀(PIN) 번호</b>를 입력하세요!<br/><br/>
                <span className="text-sm">처음이신 경우 원하시는 번호를 아무거나 치시면 자동으로 고유한 방이 개설됩니다.</span>
              </p>
@@ -104,11 +104,11 @@ export default function SavedPage() {
           >
              🚪 방 나가기
           </button>
-          <p className="text-secondary font-black text-sm sm:text-base mb-2">보안 PIN : {pin} 방 👨‍👩‍👧</p>
+          <p className="text-secondary font-black text-sm sm:text-base mb-2 hide-on-large">보안 PIN : {pin} 방 👨‍👩‍👧</p>
           <h1 className="text-4xl md:text-5xl font-black text-primary mb-4 tracking-tight drop-shadow-sm">
             <span className="text-4xl sm:text-5xl mr-2">⭐</span>내 보관함
           </h1>
-          <p className="text-muted font-bold text-base sm:text-lg break-keep">
+          <p className="text-muted font-bold text-base sm:text-lg break-keep hide-on-large">
             뽑으신 번호 중 마음에 들어서 영구적으로 저장해두신 목록입니다.
           </p>
         </header>

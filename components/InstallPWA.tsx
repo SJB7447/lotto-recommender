@@ -63,7 +63,7 @@ export function InstallPWA() {
         <div className="text-5xl drop-shadow-sm">📱</div>
         <div className="flex-1 pr-6">
           <h3 className="font-black text-2xl text-primary mb-2">행운로또 앱 설치하기</h3>
-          <p className="text-muted font-bold text-base leading-relaxed break-keep">
+          <p className="text-muted font-bold text-base leading-relaxed break-keep hide-on-large">
             {isIOS 
               ? "아이폰 사파리 하단의 [공유] ➡️ [홈 화면에 추가]를 꾹 누르시면 바탕화면에서 터치 한 번으로 열 수 있습니다!"
               : "클릭 한 번으로 바탕화면에 설치하고 언제 어디서든 편하게 번호를 당겨보세요!"}

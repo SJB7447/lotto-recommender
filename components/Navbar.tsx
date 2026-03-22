@@ -10,10 +10,21 @@ export function Navbar() {
   const [latestDraw, setLatestDraw] = useState<number>(0);
   const [isSyncing, setIsSyncing] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const [isLargeText, setIsLargeText] = useState(false);
 
   useEffect(() => {
     getLatestDrawNo().then(setLatestDraw).catch(console.error);
+    const saved = localStorage.getItem('large_text') === 'true';
+    setIsLargeText(saved);
+    if (saved) document.documentElement.classList.add('large-text-mode');
   }, []);
+
+  const toggleLargeText = () => {
+    const newValue = !isLargeText;
+    setIsLargeText(newValue);
+    localStorage.setItem('large_text', String(newValue));
+    document.documentElement.classList.toggle('large-text-mode', newValue);
+  };
 
   const handleSync = async () => {
     if (isSyncing) return;
@@ -85,7 +96,14 @@ export function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-3 sm:border-l border-border sm:pl-6">
+            <div className="flex items-center gap-2.5 sm:gap-3 sm:border-l border-border sm:pl-6">
+              <button 
+                onClick={toggleLargeText}
+                className="bg-white text-main-text border-2 border-border hover:bg-gray-50 px-3 py-1.5 rounded-xl text-sm font-black transition-colors shadow-sm flex items-center justify-center"
+                title="큰글씨 모드 켜기/끄기"
+              >
+                {isLargeText ? "🔎 끄기" : "🔎 돋보기"}
+              </button>
               {latestDraw > 0 && (
                 <span className="text-xs font-bold text-muted hidden md:inline-block bg-bg px-2.5 py-1 rounded-md border border-border">
                   {latestDraw}회차 기준

@@ -93,7 +93,7 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
         ))}
       </div>
       
-      <p className="text-muted text-sm sm:text-base mb-8 bg-black/5 p-4 rounded-xl border border-border/50 text-center sm:text-left leading-relaxed break-keep">
+      <p className="text-muted text-sm sm:text-base mb-8 bg-black/5 p-4 rounded-xl border border-border/50 text-center sm:text-left leading-relaxed break-keep hide-on-large">
         💡 <span className="font-bold">{activeTabDesc}</span>
       </p>
 
@@ -172,7 +172,7 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
               ))}
             </div>
             
-            <div className="text-center bg-white px-5 py-4 rounded-xl border border-border shadow-sm w-full max-w-lg">
+            <div className="text-center bg-white px-5 py-4 rounded-xl border border-border shadow-sm w-full max-w-lg hide-on-large">
               <span className={`text-xs px-2.5 py-1.5 rounded-md font-black uppercase mr-2.5 shadow-sm border ${results[0].confidence === 'medium' ? 'bg-[#D1FAE5] text-[#065F46] border-[#065F46]/20' : 'bg-gray-100 text-gray-700 border-gray-300'}`}>
                 신뢰도: {results[0].confidence}
               </span>
