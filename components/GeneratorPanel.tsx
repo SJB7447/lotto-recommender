@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { LottoDraw, GenerateMode, GenerateResult } from "@/types/lotto";
 import { generateNumbers, getFrequency } from "@/lib/stats";
 import { LottoBall } from "./LottoBall";
+import { addToBoard, SavedEntry } from "@/lib/board";
 
 const TABS: { id: GenerateMode; label: string; desc: string }[] = [
   { id: "hot", label: "HOT 번호", desc: "최근 50회 상위 출현 번호 위주 추천" },
@@ -37,17 +38,30 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
     }, 400);
   };
 
-  const handleSaveSingle = (res: GenerateResult, idx: number) => {
-    const saved = JSON.parse(localStorage.getItem('saved_lotto') || '[]');
-    const newEntry = {
+  const handleSaveSingle = async (res: GenerateResult, idx: number) => {
+    let currentPin = localStorage.getItem('lotto_pin');
+    if (!currentPin) {
+      const userInput = window.prompt("⭐ 안전한 개인 보관함 접속을 위해 원하시는 핀(PIN) 번호(예: 7777)를 입력해주세요!\n이 번호를 기억해두시면 어떤 기기에서든 지금 저장하는 번호를 즉시 불러올 수 있습니다.");
+      if (!userInput || userInput.trim() === "") return;
+      currentPin = userInput.trim();
+      localStorage.setItem('lotto_pin', currentPin);
+    }
+    
+    const newEntry: SavedEntry = {
       id: Date.now() + idx,
       nums: res.nums,
       mode: res.mode,
       modeLabel: res.modeLabel,
       date: new Date().toLocaleDateString('ko-KR')
     };
-    localStorage.setItem('saved_lotto', JSON.stringify([newEntry, ...saved]));
-    setSavedIndices(prev => [...prev, idx]);
+
+    try {
+      await addToBoard(currentPin, newEntry);
+      setSavedIndices(prev => [...prev, idx]);
+    } catch (e) {
+      alert("❌ 통신 문제로 보관함 저장에 실패했습니다. 다시 시도해주세요!");
+      console.error(e);
+    }
   };
 
   const getStatsSummaryValue = (nums: number[]) => {
