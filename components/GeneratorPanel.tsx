@@ -9,7 +9,7 @@ const TABS: { id: GenerateMode; label: string; desc: string }[] = [
   { id: "hot", label: "HOT 번호", desc: "최근 50회 상위 출현 번호 위주 추천" },
   { id: "balanced", label: "균형 배분", desc: "1~40+번대 각 구간별로 1개씩 포함" },
   { id: "random", label: "완전 랜덤", desc: "조건 없는 100% 무작위 추천" },
-  { id: "cold_revenge", label: "냉각 역발상", desc: "최근 10회 미출현 번호 위주 변수 노리기" },
+  { id: "cold_revenge", label: "미출현 번호 공략", desc: "최근 10회 미출현 번호 위주 변수 노리기" },
 ];
 
 interface GeneratorPanelProps {
@@ -52,7 +52,7 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
         {TABS.map((tab) => (
           <button
             key={tab.id}
-            className={`px-4 py-3 font-bold text-sm transition-colors border-b-2 flex-grow sm:flex-grow-0 ${
+            className={`px-3 py-4 font-black text-[15px] sm:text-lg transition-colors border-b-4 flex-grow sm:flex-grow-0 ${
               mode === tab.id
                 ? "border-primary text-primary"
                 : "border-transparent text-muted hover:text-main-text"
@@ -64,17 +64,17 @@ export function GeneratorPanel({ draws }: GeneratorPanelProps) {
         ))}
       </div>
       
-      <p className="text-muted text-sm mb-8 bg-black/5 p-3 rounded-lg border border-border/50 text-center sm:text-left">
-        💡 <span className="font-medium">{activeTabDesc}</span>
+      <p className="text-muted text-sm sm:text-base mb-8 bg-black/5 p-4 rounded-xl border border-border/50 text-center sm:text-left leading-relaxed">
+        💡 <span className="font-bold">{activeTabDesc}</span>
       </p>
 
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center mb-8 px-2">
         <button
           onClick={handleGenerate}
           disabled={draws.length === 0 || isAnimating}
-          className="bg-primary hover:bg-[#E05A2A] text-white px-10 py-3.5 rounded-full font-black text-lg shadow-[0_4px_14px_rgba(255,107,53,0.3)] transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
+          className="bg-primary hover:bg-[#E05A2A] text-white w-full sm:w-auto px-6 sm:px-12 py-5 sm:py-4 rounded-2xl sm:rounded-full font-black text-xl sm:text-2xl shadow-[0_8px_20px_rgba(255,107,53,0.3)] transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
         >
-          {result ? "다시 생성하기" : "번호 생성하기"}
+          {result ? "🔄 다시 번호 뽑기" : "✨ 나만의 행운 번호 뽑기"}
         </button>
       </div>
 

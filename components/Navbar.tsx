@@ -26,6 +26,7 @@ export function Navbar() {
       
       if (data.success) {
         if (data.count > 0) {
+          sessionStorage.removeItem("draws_cache");
           setToastMessage(`✅ ${data.count}개의 새로운 회차가 동기화되었습니다!`);
           const maxNo = Math.max(...data.updatedDraws.map((d: any) => d.drawNo));
           setLatestDraw(maxNo);

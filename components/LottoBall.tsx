@@ -38,9 +38,9 @@ export function LottoBall({
   }
 
   const sizeClasses = {
-    sm: "w-8 h-8 text-xs",
-    md: "w-[44px] h-[44px] text-base",
-    lg: "w-14 h-14 text-xl",
+    sm: "w-10 h-10 text-sm",
+    md: "w-[52px] h-[52px] text-[20px]",
+    lg: "w-16 h-16 text-3xl font-black",
   };
 
   const glowClass = glow

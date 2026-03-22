@@ -124,7 +124,7 @@ export function generateNumbers(
       selectedNums.push(...getRandomList(remainingPool, needs));
     }
     
-    modeLabel = "최근 10회 미출현 복수형";
+    modeLabel = "미출현 번호 공략 (최근 10회 기준)";
     confidence = "low";
 
   } else {

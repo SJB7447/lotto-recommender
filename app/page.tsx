@@ -44,11 +44,12 @@ export default function HomePage() {
     <main className="min-h-screen bg-bg text-main-text pb-24">
       <div className="max-w-3xl mx-auto px-5 pt-12">
         
-        <header className="mb-10 text-center">
-          <h1 className="text-3xl md:text-4xl font-black text-primary mb-3 tracking-tight drop-shadow-sm">
-            <span className="text-4xl mr-2">🍀</span>로또 통계 번호 추천
+        <header className="mb-10 text-center animate-fade-in">
+          <p className="text-secondary font-black text-sm sm:text-base mb-2">아버지의 든든한 행운 도우미 👨‍👩‍👧</p>
+          <h1 className="text-4xl md:text-5xl font-black text-primary mb-4 tracking-tight drop-shadow-sm">
+            <span className="text-4xl sm:text-5xl mr-2">🍀</span>행운의 로또
           </h1>
-          <p className="text-muted font-medium text-sm sm:text-base">최적의 통계 분석으로 완성하는 나만의 행운 번호</p>
+          <p className="text-muted font-bold text-base sm:text-lg">과거를 분석해 새로운 희망을 그려보세요!</p>
         </header>
 
         {latestDraw && (
@@ -56,11 +57,11 @@ export default function HomePage() {
             <div className="absolute top-0 right-0 w-40 h-40 bg-accent/10 rounded-bl-full -z-10 pointer-events-none"></div>
             
             <div className="flex flex-col items-center">
-              <div className="bg-[#FFF8E6] text-primary font-black px-4 py-1.5 rounded-full text-sm mb-5 border border-primary/20 shadow-sm">
+              <div className="bg-[#FFF8E6] text-primary font-black px-5 py-2 rounded-full text-base mb-5 border border-primary/20 shadow-sm">
                 최신 당첨 결과
               </div>
-              <h2 className="text-2xl font-bold mb-1">제 {latestDraw.drawNo}회</h2>
-              <p className="text-muted text-sm mb-8 font-medium">✨ {latestDraw.drawDate} 추첨 ✨</p>
+              <h2 className="text-3xl font-black mb-2">제 {latestDraw.drawNo}회</h2>
+              <p className="text-muted text-base mb-8 font-bold">✨ {latestDraw.drawDate} 추첨 ✨</p>
 
               <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-3 mb-10">
                 {latestDraw.nums.map((n, i) => (
@@ -70,16 +71,16 @@ export default function HomePage() {
                 <LottoBall num={latestDraw.bonus} size="lg" bonus animate />
               </div>
 
-              <div className="grid grid-cols-2 gap-4 w-full max-w-sm text-center bg-bg p-5 rounded-2xl border border-border/60">
+              <div className="grid grid-cols-2 gap-4 w-full max-w-md text-center bg-bg p-6 rounded-3xl border border-border/60 shadow-inner">
                 <div>
-                  <p className="text-xs text-muted mb-1.5 font-medium">1등 당첨자수</p>
-                  <p className="font-black text-lg text-secondary">
+                  <p className="text-sm sm:text-base text-muted mb-2 font-bold">1등 당첨자수</p>
+                  <p className="font-black text-2xl text-secondary">
                     {latestDraw.prize1stCount.toLocaleString()}명
                   </p>
                 </div>
-                <div className="border-l border-border/80">
-                  <p className="text-xs text-muted mb-1.5 font-medium">1등 당첨금액</p>
-                  <p className="font-black text-lg text-primary">
+                <div className="border-l-2 border-border/80 pl-4">
+                  <p className="text-sm sm:text-base text-muted mb-2 font-bold">1등 당첨금액</p>
+                  <p className="font-black text-2xl text-primary">
                     {Math.floor(latestDraw.prize1stAmount / 100000000).toLocaleString()}억 원
                   </p>
                 </div>

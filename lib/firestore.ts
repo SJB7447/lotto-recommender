@@ -13,7 +13,8 @@ export async function getAllDraws(): Promise<LottoDraw[]> {
     if (cached) {
       try {
         const { timestamp, data } = JSON.parse(cached);
-        if (Date.now() - timestamp < CACHE_TTL) {
+        // 데이터가 비어있는 상태로 잘못 캐싱된 경우(시딩 전 접속) 무시
+        if (Date.now() - timestamp < CACHE_TTL && data && data.length > 0) {
           return data;
         }
       } catch (e) {
