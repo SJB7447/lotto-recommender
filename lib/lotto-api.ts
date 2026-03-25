@@ -1,45 +1,45 @@
 import axios from "axios";
 import { LottoDraw } from "../types/lotto";
 
-interface DHLotteryResponse {
-  returnValue: string;
-  drwNo: number;
-  drwNoDate: string;
-  drwtNo1: number;
-  drwtNo2: number;
-  drwtNo3: number;
-  drwtNo4: number;
-  drwtNo5: number;
-  drwtNo6: number;
-  bnusNo: number;
-  firstPrzwnerCo: number;
-  firstWinamnt: number;
-}
-
 export async function fetchLottoDrawFromDH(drawNo: number): Promise<LottoDraw | null> {
   try {
-    const { data } = await axios.get<DHLotteryResponse>(
-      `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${drawNo}`
-    );
+    const url = "https://search.naver.com/search.naver?query=" + encodeURIComponent(`${drawNo}회 로또당첨번호`);
+    const { data: html } = await axios.get(url, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept-Language": "ko-KR,ko;q=0.9",
+      }
+    });
 
-    if (data.returnValue !== "success") {
+    const drawMatch = html.match(/<a[^>]*class="[^"]*_text[^"]*"[^>]*>(\d+)회차/);
+    if (!drawMatch || parseInt(drawMatch[1], 10) !== drawNo) {
+      console.log(`[Sync] Naver could not find exact match for draw ${drawNo}.`);
       return null;
     }
 
-    const nums = [
-      data.drwtNo1,
-      data.drwtNo2,
-      data.drwtNo3,
-      data.drwtNo4,
-      data.drwtNo5,
-      data.drwtNo6,
-    ].sort((a, b) => a - b);
+    const numRegex = /<span class="ball[^"]*">(\d+)<\/span>/g;
+    const extracted: number[] = [];
+    let match;
+    while ((match = numRegex.exec(html)) !== null && extracted.length < 7) {
+      extracted.push(Number(match[1]));
+    }
+
+    if (extracted.length < 7) {
+      console.log(`[Sync] Could not parse exactly 7 numbers for draw ${drawNo}. Found: ${extracted.length}`);
+      return null;
+    }
+
+    const nums = extracted.slice(0, 6).sort((a, b) => a - b);
+    const bonus = extracted[6];
+
+    const dateMatch = html.match(/(\d{4}\.\d{2}\.\d{2})\./);
+    const drawDate = dateMatch ? dateMatch[1].replace(/\./g, "-") : "";
 
     return {
-      drawNo: data.drwNo,
-      drawDate: data.drwNoDate,
+      drawNo,
+      drawDate,
       nums,
-      bonus: data.bnusNo,
+      bonus,
       oddCount: nums.filter(n => n % 2 !== 0).length,
       evenCount: nums.filter(n => n % 2 === 0).length,
       lowCount: nums.filter(n => n >= 1 && n <= 22).length,
@@ -49,11 +49,11 @@ export async function fetchLottoDrawFromDH(drawNo: number): Promise<LottoDraw | 
       range3: nums.filter(n => n >= 21 && n <= 30).length,
       range4: nums.filter(n => n >= 31 && n <= 40).length,
       range5: nums.filter(n => n >= 41 && n <= 45).length,
-      prize1stCount: data.firstPrzwnerCo,
-      prize1stAmount: data.firstWinamnt,
+      prize1stCount: 0,
+      prize1stAmount: 0,
     };
   } catch (error) {
-    console.error("DH Lottery API fetch error:", error);
+    console.error("Naver scraping error:", error);
     return null;
   }
 }
