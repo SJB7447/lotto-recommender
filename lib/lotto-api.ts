@@ -35,6 +35,17 @@ export async function fetchLottoDrawFromDH(drawNo: number): Promise<LottoDraw | 
     const dateMatch = html.match(/(\d{4}\.\d{2}\.\d{2})\./);
     const drawDate = dateMatch ? dateMatch[1].replace(/\./g, "-") : "";
 
+    // 1등 당첨금, 당첨자 수 추출
+    // Pattern: <p class="win_text">1등 당첨금 <strong class="emphasis">2,148,654,000</strong>원 (당첨 복권수 14개)</p>
+    let prize1stAmount = 0;
+    let prize1stCount = 0;
+
+    const prizeMatch = html.match(/<strong class="emphasis">([\d,]+)<\/strong>원\s*\(당첨 복권수\s*(\d+)개\)/);
+    if (prizeMatch) {
+      prize1stAmount = Number(prizeMatch[1].replace(/,/g, ""));
+      prize1stCount = Number(prizeMatch[2]);
+    }
+
     return {
       drawNo,
       drawDate,
@@ -49,8 +60,8 @@ export async function fetchLottoDrawFromDH(drawNo: number): Promise<LottoDraw | 
       range3: nums.filter(n => n >= 21 && n <= 30).length,
       range4: nums.filter(n => n >= 31 && n <= 40).length,
       range5: nums.filter(n => n >= 41 && n <= 45).length,
-      prize1stCount: 0,
-      prize1stAmount: 0,
+      prize1stCount,
+      prize1stAmount,
     };
   } catch (error) {
     console.error("Naver scraping error:", error);
