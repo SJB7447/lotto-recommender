@@ -24,7 +24,7 @@ export interface NumberStat {
   percentage: number       // 전체 대비 출현율
 }
 
-export type GenerateMode = "hot" | "balanced" | "random" | "cold_revenge"
+export type GenerateMode = "hot" | "balanced" | "random" | "cold_revenge" | "golden"
 
 export interface GenerateResult {
   nums: number[]

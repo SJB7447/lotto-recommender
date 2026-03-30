@@ -3,6 +3,9 @@ import { getLatestDrawNo, upsertDraw } from "@/lib/firestore";
 import { fetchLottoDrawFromDH } from "@/lib/lotto-api";
 import { LottoDraw } from "@/types/lotto";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function POST(request: Request) {
   try {
     const url = new URL(request.url);

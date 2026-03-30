@@ -3,7 +3,7 @@ import { LottoDraw } from "../types/lotto";
 
 export async function fetchLottoDrawFromDH(drawNo: number): Promise<LottoDraw | null> {
   try {
-    const url = "https://search.naver.com/search.naver?query=" + encodeURIComponent(`${drawNo}회 로또당첨번호`);
+    const url = "https://search.naver.com/search.naver?query=" + encodeURIComponent(`${drawNo}회 로또당첨번호`) + `&t=${Date.now()}`;
     const { data: html } = await axios.get(url, {
       headers: {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",

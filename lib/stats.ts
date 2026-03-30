@@ -127,6 +127,31 @@ export function generateNumbers(
     modeLabel = "미출현 번호 공략 (최근 10회 기준)";
     confidence = "low";
 
+  } else if (mode === "golden") {
+    let attempts = 0;
+    while (attempts < 5000) {
+      const candidate = getRandomList(fullPool, 6).sort((a, b) => a - b);
+      const sum = candidate.reduce((a, b) => a + b, 0);
+      const oddCount = candidate.filter(n => n % 2 !== 0).length;
+      
+      let hasConsecutive3 = false;
+      for (let i = 0; i < candidate.length - 2; i++) {
+        if (candidate[i] + 1 === candidate[i + 1] && candidate[i] + 2 === candidate[i + 2]) {
+          hasConsecutive3 = true;
+          break;
+        }
+      }
+      
+      if (sum >= 120 && sum <= 170 && oddCount >= 2 && oddCount <= 4 && !hasConsecutive3) {
+        selectedNums = candidate;
+        break;
+      }
+      attempts++;
+    }
+    if (selectedNums.length === 0) selectedNums = getRandomList(fullPool, 6);
+    modeLabel = "통계 최적화 (황금 조합)";
+    confidence = "medium";
+
   } else {
     // random
     selectedNums = getRandomList(fullPool, 6);
