@@ -33,10 +33,22 @@ export async function POST(request: Request) {
     } else {
       // Normal sync mode: fetch new draws after latest
       let currentMax = await getLatestDrawNo();
+      
+      // Check if currentMax has 0 prize (e.g. synced too early on Saturday)
+      // If it has 0 prize, we should include it in the sync list
+      let startDraw = currentMax;
+      if (currentMax > 0) {
+        const { getDrawByNo } = await import("@/lib/firestore");
+        const latestInfo = await getDrawByNo(currentMax);
+        if (latestInfo && latestInfo.prize1stAmount === 0) {
+          startDraw = currentMax - 1; // start fetching from currentMax
+        }
+      }
+
       const MAX_SYNC = 10;
 
       for (let i = 1; i <= MAX_SYNC; i++) {
-        const targetDrawNo = currentMax + i;
+        const targetDrawNo = startDraw + i;
         const apiResult = await fetchLottoDrawFromDH(targetDrawNo);
 
         if (!apiResult) {

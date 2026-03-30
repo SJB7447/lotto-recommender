@@ -46,6 +46,18 @@ export async function fetchLottoDrawFromDH(drawNo: number): Promise<LottoDraw | 
       prize1stCount = Number(prizeMatch[2]);
     }
 
+    // fallback to official DH payload due to Naver decoding/scraping issues
+    try {
+      const dhUrl = `https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${drawNo}`;
+      const dhRes = await axios.get(dhUrl);
+      if (dhRes.data && dhRes.data.returnValue === "success") {
+        prize1stAmount = dhRes.data.firstWinamnt || prize1stAmount;
+        prize1stCount = dhRes.data.firstPrzwnerCo || prize1stCount;
+      }
+    } catch (dhError) {
+      console.error("[Sync] DH API fallback failed:", dhError);
+    }
+
     return {
       drawNo,
       drawDate,
