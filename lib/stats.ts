@@ -81,12 +81,11 @@ export function generateNumbers(
   };
 
   if (mode === "hot") {
-    // 최근 50회 빈도 상위 15개 풀에서 랜덤 6개
-    const recentDraws = [...draws].sort((a, b) => b.drawNo - a.drawNo).slice(0, 50);
-    const freq = getFrequency(recentDraws, false);
-    const top15 = freq.slice(0, 15).map(s => s.num);
-    selectedNums = getRandomList(top15, 6);
-    modeLabel = "최근 50회 HOT 번호 집중형";
+    // 역대 전체 추첨 기준 가장 출현 확률(빈도)가 높은 20개 풀에서 랜덤 추출 (확률 극대화)
+    const freq = getFrequency(draws, false);
+    const top20 = freq.slice(0, 20).map(s => s.num);
+    selectedNums = getRandomList(top20, 6);
+    modeLabel = "📉 역대 당첨확률 최상위 집중형";
     confidence = "medium";
 
   } else if (mode === "balanced") {

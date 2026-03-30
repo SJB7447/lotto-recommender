@@ -7,7 +7,7 @@ import { LottoBall } from "./LottoBall";
 import { addToBoard, SavedEntry } from "@/lib/board";
 
 const TABS: { id: GenerateMode; label: string; desc: string }[] = [
-  { id: "hot", label: "HOT 번호", desc: "최근 50회 상위 출현 번호 위주 추천" },
+  { id: "hot", label: "📈 당첨확률 높은 번호", desc: "역대 가장 많이 당첨된 확률 높은 번호 위주 추천" },
   { id: "balanced", label: "균형 배분", desc: "1~40+번대 각 구간별로 1개씩 포함" },
   { id: "golden", label: "통계 최적화", desc: "합계 120~170, 홀짝 3:3, 연속번호 차단 황금 조합" },
   { id: "random", label: "완전 랜덤", desc: "조건 없는 100% 무작위 추천" },
